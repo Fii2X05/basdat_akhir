@@ -1,0 +1,150 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f6f8fa;
+}
+
+.sidebar {
+    width: 260px;
+    background: #0d1b2a;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    padding: 20px;
+}
+
+.sidebar a {
+    color: white;
+    display: block;
+    padding: 10px;
+    margin-top: 5px;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.sidebar a:hover {
+    background: #415a77;
+}
+
+.content {
+    margin-left: 280px;
+    padding: 20px;
+}
+
+.form-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 700px;
+}
+
+.form-box input,
+.form-box select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background: #1d4ed8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #1e40af;
+}
+/* Styling umum untuk semua kotak dashboard */
+.dashboard-card {
+    border-radius: 8px; /* Sudut membulat */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow ringan */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi untuk hover */
+    cursor: pointer; /* Menandakan elemen bisa diklik */
+    text-align: center;
+}
+
+/* Hover Effect */
+.dashboard-card:hover {
+    transform: translateY(-5px); /* Naik sedikit saat di-hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow lebih kuat */
+}
+
+/* Warna Latar Belakang Spesifik untuk Setiap Kotak */
+
+.card-mahasiswa {
+    background-color: #e6f7ff; /* Biru muda */
+    border-left: 5px solid #1890ff; 
+}
+
+.card-dosen {
+    background-color: #f6ffed; /* Hijau muda */
+    border-left: 5px solid #52c41a; 
+}
+
+.card-jurusan {
+    background-color: #fffbe6; /* Kuning muda */
+    border-left: 5px solid #faad14; 
+}
+
+.card-kelas {
+    background-color: #fff1f0; /* Merah muda */
+    border-left: 5px solid #f5222d; 
+}
+
+.card-matakuliah {
+    background-color: #f0f5ff; /* Ungu/Indigo muda */
+    border-left: 5px solid #2f54eb; 
+}
+
+.card-jadwal {
+    background-color: #e6fffb; /* Cyan muda */
+    border-left: 5px solid #13c2c2; 
+}
+
+.card-nilai {
+    background-color: #f9f0ff; /* Lavender muda */
+    border-left: 5px solid #722ed1; 
+}
+/* Style untuk Modal */
+.modal {
+    display: none; /* Sembunyikan secara default */
+    position: fixed; 
+    z-index: 1000; /* Pastikan di atas elemen lain */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Background gelap transparan */
+}
+
+/* Kotak Modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% dari atas dan di tengah */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Lebar modal */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Tombol Tutup */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
