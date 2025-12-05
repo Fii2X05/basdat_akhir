@@ -12,23 +12,23 @@ class KelasModel {
     }
 
     public function getById($id_kelas) {
-        $stmt = $this->db->prepare("SELECT * FROM kelas WHERE id_kelas = ?");
+        $stmt = $this->db->prepare("SELECT * FROM kelas WHERE id_kelas = $1");
         $stmt->execute([$id_kelas]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function create($data) {
-        $stmt = $this->db->prepare("INSERT INTO kelas (nama_kelas) VALUES (?)");
+        $stmt = $this->db->prepare("INSERT INTO kelas (nama_kelas) VALUES ($1)");
         return $stmt->execute([$data['nama_kelas']]);
     }
 
     public function update($id_kelas, $data) {
-        $stmt = $this->db->prepare("UPDATE kelas SET nama_kelas = ? WHERE id_kelas = ?");
+        $stmt = $this->db->prepare("UPDATE kelas SET nama_kelas = $1 WHERE id_kelas = $2");
         return $stmt->execute([$data['nama_kelas'], $id_kelas]);
     }
 
     public function delete($id_kelas) {
-        $stmt = $this->db->prepare("DELETE FROM kelas WHERE id_kelas = ?");
+        $stmt = $this->db->prepare("DELETE FROM kelas WHERE id_kelas = $1");
         return $stmt->execute([$id_kelas]);
     }
 }

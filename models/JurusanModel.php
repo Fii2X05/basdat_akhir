@@ -2,33 +2,49 @@
 class JurusanModel {
     private $db;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct() {
+        require_once "Database.php";
+        $database = new Database();
+        $this->db = $database->connect();
     }
 
     public function getAll() {
-        $stmt = $this->db->query("SELECT * FROM jurusan ORDER BY id_jurusan DESC");
+        $sql = "SELECT * FROM jurusan ORDER BY id_jurusan DESC";
+        $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id_jurusan) {
-        $stmt = $this->db->prepare("SELECT * FROM jurusan WHERE id_jurusan = ?");
-        $stmt->execute([$id_jurusan]);
+    public function find($id) {
+        $sql = "SELECT * FROM jurusan WHERE id_jurusan = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([":id" => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create($data) {
-        $stmt = $this->db->prepare("INSERT INTO jurusan (nama_jurusan) VALUES (?)");
-        return $stmt->execute([$data['nama_jurusan']]);
+    public function insert($data) {
+        $sql = "INSERT INTO jurusan (nama) VALUES (:nama)";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            ":nama" => $data['nama']
+        ]);
     }
 
-    public function update($id_jurusan, $data) {
-        $stmt = $this->db->prepare("UPDATE jurusan SET nama_jurusan = ? WHERE id_jurusan = ?");
-        return $stmt->execute([$data['nama_jurusan'], $id_jurusan]);
+    public function update($data) {
+        $sql = "
+            UPDATE jurusan
+            SET nama = :nama
+            WHERE id_jurusan = :id
+        ";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            ":nama" => $data['nama'],
+            ":id"   => $data['id']
+        ]);
     }
 
-    public function delete($id_jurusan) {
-        $stmt = $this->db->prepare("DELETE FROM jurusan WHERE id_jurusan = ?");
-        return $stmt->execute([$id_jurusan]);
+    public function delete($id) {
+        $sql = "DELETE FROM jurusan WHERE id_jurusan = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([":id" => $id]);
     }
 }

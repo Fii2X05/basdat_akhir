@@ -1,14 +1,11 @@
 <?php
 require_once "models/DosenModel.php";
-require_once "models/JurusanModel.php";
 
 class DosenController {
     private $model;
-    private $jurusan;
 
     public function __construct() {
         $this->model = new DosenModel();
-        $this->jurusan = new JurusanModel();
     }
 
     public function index() {
@@ -17,51 +14,43 @@ class DosenController {
     }
 
     public function create() {
-        $jurusan = $this->jurusan->getAll();
         include "views/dosen_create.php";
     }
 
     public function store() {
         $data = [
-            'nip'        => $_POST['nip'],
-            'nama'       => $_POST['nama'],
-            'email'      => $_POST['email'],
-            'no_hp'      => $_POST['no_hp'],
-            'id_jurusan' => $_POST['id_jurusan'],
-            'status'     => $_POST['status']
+            'nip'       => $_POST['nip'],
+            'nama'      => $_POST['nama'],
+            'keahlian'  => $_POST['keahlian']
         ];
 
-        $this->model->insert($data);
-        header("Location: index.php?action=dosen_index");
+        $this->model->create($data);
+        header("Location: index.php?page=dosen_list");
         exit;
     }
 
     public function edit() {
         $id = $_GET['id'];
-        $dosen = $this->model->find($id);
-        $jurusan = $this->jurusan->getAll();
+        $dosen = $this->model->getById($id);
         include "views/dosen_edit.php";
     }
 
     public function update() {
         $data = [
-            'id'         => $_POST['id'],
-            'nip'        => $_POST['nip'],
-            'nama'       => $_POST['nama'],
-            'email'      => $_POST['email'],
-            'no_hp'      => $_POST['no_hp'],
-            'id_jurusan' => $_POST['id_jurusan'],
-            'status'     => $_POST['status']
+            'id_dosen' => $_POST['id_dosen'],
+            'nip'      => $_POST['nip'],
+            'nama'     => $_POST['nama'],
+            'keahlian' => $_POST['keahlian']
         ];
 
-        $this->model->update($data);
-        header("Location: index.php?action=dosen_index");
+        $this->model->update($data['id_dosen'], $data);
+        header("Location: index.php?page=dosen_list");
         exit;
     }
 
     public function delete() {
         $this->model->delete($_GET['id']);
-        header("Location: index.php?action=dosen_index");
+        header("Location: index.php?page=dosen_list");
         exit;
     }
 }

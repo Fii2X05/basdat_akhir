@@ -18,12 +18,23 @@ class MatakuliahModel {
     }
 
     public function create($data) {
-        $stmt = $this->db->prepare("INSERT INTO matakuliah (nama_matakuliah, sks) VALUES (?, ?)");
-        return $stmt->execute([$data['nama_matakuliah'], $data['sks']]);
+        $stmt = $this->db->prepare("
+            INSERT INTO matakuliah (nama_matakuliah, sks)
+            VALUES (?, ?)
+        ");
+        return $stmt->execute([
+            $data['nama_matakuliah'],
+            $data['sks']
+        ]);
     }
 
     public function update($id_matakuliah, $data) {
-        $stmt = $this->db->prepare("UPDATE matakuliah SET nama_matakuliah = ?, sks = ? WHERE id_matakuliah = ?");
+        $stmt = $this->db->prepare("
+            UPDATE matakuliah
+            SET nama_matakuliah = ?, sks = ?
+            WHERE id_matakuliah = ?
+        ");
+
         return $stmt->execute([
             $data['nama_matakuliah'],
             $data['sks'],

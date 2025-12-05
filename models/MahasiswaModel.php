@@ -12,7 +12,8 @@ class MahasiswaModel {
             FROM mahasiswa m
             LEFT JOIN jurusan j ON m.id_jurusan = j.id_jurusan
             LEFT JOIN kelas k ON m.id_kelas = k.id_kelas
-            ORDER BY m.id_mahasiswa DESC";
+            ORDER BY m.id_mahasiswa DESC
+        ";
 
         $stmt = $this->db->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,7 +26,11 @@ class MahasiswaModel {
     }
 
     public function create($data) {
-        $stmt = $this->db->prepare("INSERT INTO mahasiswa (nama_mahasiswa, nim, email, id_jurusan, id_kelas) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $this->db->prepare("
+            INSERT INTO mahasiswa (nama_mahasiswa, nim, email, id_jurusan, id_kelas)
+            VALUES (?, ?, ?, ?, ?)
+        ");
+
         return $stmt->execute([
             $data['nama_mahasiswa'],
             $data['nim'],
@@ -36,7 +41,12 @@ class MahasiswaModel {
     }
 
     public function update($id_mahasiswa, $data) {
-        $stmt = $this->db->prepare("UPDATE mahasiswa SET nama_mahasiswa = ?, nim = ?, email = ?, id_jurusan = ?, id_kelas = ? WHERE id_mahasiswa = ?");
+        $stmt = $this->db->prepare("
+            UPDATE mahasiswa
+            SET nama_mahasiswa = ?, nim = ?, email = ?, id_jurusan = ?, id_kelas = ?
+            WHERE id_mahasiswa = ?
+        ");
+
         return $stmt->execute([
             $data['nama_mahasiswa'],
             $data['nim'],

@@ -2,61 +2,79 @@
 class JadwalModel {
     private $db;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct() {
+        require_once "Database.php";
+        $database = new Database();
+        $this->db = $database->connect();
     }
 
     public function getAll() {
-        $query = "
-            SELECT j.*, m.nama_matakuliah, d.nama_dosen, k.nama_kelas
+        $sql = "
+            SELECT j.*, 
+                   m.nama_matakuliah, 
+                   d.nama AS nama_dosen, 
+                   k.nama_kelas
             FROM jadwal j
             LEFT JOIN matakuliah m ON j.id_matakuliah = m.id_matakuliah
             LEFT JOIN dosen d ON j.id_dosen = d.id_dosen
             LEFT JOIN kelas k ON j.id_kelas = k.id_kelas
-            ORDER BY j.id_jadwal DESC";
+            ORDER BY j.id_jadwal DESC
+        ";
 
-        $stmt = $this->db->query($query);
+        $stmt = $this->db->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id_jadwal) {
-        $stmt = $this->db->prepare("SELECT * FROM jadwal WHERE id_jadwal = ?");
-        $stmt->execute([$id_jadwal]);
+    public function getById($id) {
+        $sql = "SELECT * FROM jadwal WHERE id_jadwal = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([":id" => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function create($data) {
-        $stmt = $this->db->prepare("
+        $sql = "
             INSERT INTO jadwal (id_matakuliah, id_dosen, id_kelas, hari, jam)
-            VALUES (?, ?, ?, ?, ?)
-        ");
+            VALUES (:id_matakuliah, :id_dosen, :id_kelas, :hari, :jam)
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
         return $stmt->execute([
-            $data['id_matakuliah'],
-            $data['id_dosen'],
-            $data['id_kelas'],
-            $data['hari'],
-            $data['jam']
+            ":id_matakuliah" => $data['id_matakuliah'],
+            ":id_dosen"      => $data['id_dosen'],
+            ":id_kelas"      => $data['id_kelas'],
+            ":hari"          => $data['hari'],
+            ":jam"           => $data['jam']
         ]);
     }
 
-    public function update($id_jadwal, $data) {
-        $stmt = $this->db->prepare("
-            UPDATE jadwal 
-            SET id_matakuliah = ?, id_dosen = ?, id_kelas = ?, hari = ?, jam = ?
-            WHERE id_jadwal = ?
-        ");
+    public function update($id, $data) {
+        $sql = "
+            UPDATE jadwal SET
+                id_matakuliah = :id_matakuliah,
+                id_dosen      = :id_dosen,
+                id_kelas      = :id_kelas,
+                hari          = :hari,
+                jam           = :jam
+            WHERE id_jadwal = :id
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
         return $stmt->execute([
-            $data['id_matakuliah'],
-            $data['id_dosen'],
-            $data['id_kelas'],
-            $data['hari'],
-            $data['jam'],
-            $id_jadwal
+            ":id"            => $id,
+            ":id_matakuliah" => $data['id_matakuliah'],
+            ":id_dosen"      => $data['id_dosen'],
+            ":id_kelas"      => $data['id_kelas'],
+            ":hari"          => $data['hari'],
+            ":jam"           => $data['jam']
         ]);
     }
 
-    public function delete($id_jadwal) {
-        $stmt = $this->db->prepare("DELETE FROM jadwal WHERE id_jadwal = ?");
-        return $stmt->execute([$id_jadwal]);
+    public function delete($id) {
+        $sql = "DELETE FROM jadwal WHERE id_jadwal = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([":id" => $id]);
     }
 }

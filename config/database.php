@@ -1,24 +1,28 @@
 <?php
 class Database {
     private $host = "localhost";
-     private $port = "5433";
-    private $db = "db_akademik";
+    private $port = "5432"; // port PostgreSQL (biasanya 5432 atau 5433)
+    private $db   = "sistem_manajemen_kampus";
     private $user = "postgre";
     private $pass = "sabrina";
+
     public $conn;
 
     public function connect() {
         $this->conn = null;
         try {
-            $this->conn = new PDO(
-                "mysql:host=" . $this->host . ";dbname=" . $this->db,
-                $this->user,
-                $this->pass
-            );
+            // DSN PostgreSQL
+            $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->db}";
+
+            $this->conn = new PDO($dsn, $this->user, $this->pass);
+
+            // Error mode
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(Exception $e) {
+
+        } catch (Exception $e) {
             echo "Connection Error: " . $e->getMessage();
         }
+
         return $this->conn;
     }
 }

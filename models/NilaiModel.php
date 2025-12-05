@@ -12,7 +12,8 @@ class NilaiModel {
             FROM nilai n
             LEFT JOIN mahasiswa mhs ON n.id_mahasiswa = mhs.id_mahasiswa
             LEFT JOIN matakuliah mk ON n.id_matakuliah = mk.id_matakuliah
-            ORDER BY n.id_nilai DESC";
+            ORDER BY n.id_nilai DESC
+        ";
 
         $stmt = $this->db->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -29,6 +30,7 @@ class NilaiModel {
             INSERT INTO nilai (id_mahasiswa, id_matakuliah, nilai_angka, nilai_huruf)
             VALUES (?, ?, ?, ?)
         ");
+
         return $stmt->execute([
             $data['id_mahasiswa'],
             $data['id_matakuliah'],
@@ -39,10 +41,11 @@ class NilaiModel {
 
     public function update($id_nilai, $data) {
         $stmt = $this->db->prepare("
-            UPDATE nilai 
+            UPDATE nilai
             SET id_mahasiswa = ?, id_matakuliah = ?, nilai_angka = ?, nilai_huruf = ?
             WHERE id_nilai = ?
         ");
+
         return $stmt->execute([
             $data['id_mahasiswa'],
             $data['id_matakuliah'],
