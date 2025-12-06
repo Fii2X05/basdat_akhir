@@ -6,14 +6,14 @@ class KelasController {
     private $model;
     private $jurusan;
 
-    public function __construct() {
-        $this->model = new KelasModel();
-        $this->jurusan = new JurusanModel();
+    public function __construct($db) {
+        $this->model = new KelasModel($db);
+        $this->jurusan = new JurusanModel($db);
     }
 
     public function index() {
         $data = $this->model->getAll();
-        include "views/kelas_index.php";
+        include "views/kelas.php"; 
     }
 
     public function create() {
@@ -26,25 +26,26 @@ class KelasController {
             'nama'       => $_POST['nama'],
             'id_jurusan' => $_POST['id_jurusan']
         ];
-        $this->model->insert($data);
+        $this->model->create($data);
         header("Location: index.php?action=kelas_index");
         exit;
     }
 
     public function edit() {
-        $kelas = $this->model->find($_GET['id']);
+        $kelas = $this->model->getById($_GET['id']);
         $jurusan = $this->jurusan->getAll();
         include "views/kelas_edit.php";
     }
 
     public function update() {
+        $id_kelas = $_POST['id'];
+        
         $data = [
-            'id'         => $_POST['id'],
             'nama'       => $_POST['nama'],
             'id_jurusan' => $_POST['id_jurusan']
         ];
 
-        $this->model->update($data);
+        $this->model->update($id_kelas, $data);
         header("Location: index.php?action=kelas_index");
         exit;
     }

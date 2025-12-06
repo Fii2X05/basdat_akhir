@@ -26,11 +26,21 @@ body {
     background: #415a77;
 }
 
+/* KONTEN UTAMA */
 .content {
     margin-left: 280px;
     padding: 20px;
 }
 
+/* KOTAK INFORMASI UMUM DI DASHBOARD */
+.card-custom {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* FORM BOX */
 .form-box {
     background: white;
     padding: 25px;
@@ -45,6 +55,7 @@ body {
     margin-bottom: 15px;
 }
 
+/* TOMBOL DASAR */
 .btn-primary {
     background: #1d4ed8;
     color: white;
@@ -57,79 +68,81 @@ body {
 .btn-primary:hover {
     background: #1e40af;
 }
+
 /* Styling umum untuk semua kotak dashboard */
 .dashboard-card {
-    border-radius: 8px; /* Sudut membulat */
+    border-radius: 8px; 
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow ringan */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi untuk hover */
-    cursor: pointer; /* Menandakan elemen bisa diklik */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    cursor: pointer; 
     text-align: center;
 }
 
 /* Hover Effect */
 .dashboard-card:hover {
-    transform: translateY(-5px); /* Naik sedikit saat di-hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow lebih kuat */
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
 }
 
 /* Warna Latar Belakang Spesifik untuk Setiap Kotak */
-
 .card-mahasiswa {
-    background-color: #e6f7ff; /* Biru muda */
+    background-color: #e6f7ff;
     border-left: 5px solid #1890ff; 
 }
 
 .card-dosen {
-    background-color: #f6ffed; /* Hijau muda */
+    background-color: #f6ffed;
     border-left: 5px solid #52c41a; 
 }
 
 .card-jurusan {
-    background-color: #fffbe6; /* Kuning muda */
+    background-color: #fffbe6;
     border-left: 5px solid #faad14; 
 }
 
 .card-kelas {
-    background-color: #fff1f0; /* Merah muda */
+    background-color: #fff1f0;
     border-left: 5px solid #f5222d; 
 }
 
 .card-matakuliah {
-    background-color: #f0f5ff; /* Ungu/Indigo muda */
+    background-color: #f0f5ff;
     border-left: 5px solid #2f54eb; 
 }
 
 .card-jadwal {
-    background-color: #e6fffb; /* Cyan muda */
+    background-color: #e6fffb;
     border-left: 5px solid #13c2c2; 
 }
 
 .card-nilai {
-    background-color: #f9f0ff; /* Lavender muda */
+    /* Mengganti warna agar lebih kontras dengan tombol 'Lihat' di dashboard */
+    background-color: #f5f5f5; 
     border-left: 5px solid #722ed1; 
 }
+
 /* Style untuk Modal */
 .modal {
-    display: none; /* Sembunyikan secara default */
+    display: none; 
     position: fixed; 
-    z-index: 1000; /* Pastikan di atas elemen lain */
+    z-index: 1000; 
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); /* Background gelap transparan */
+    background-color: rgba(0, 0, 0, 0.4); 
 }
 
 /* Kotak Modal */
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto; /* 10% dari atas dan di tengah */
+    margin: 10% auto; 
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Lebar modal */
+    width: 80%; 
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }

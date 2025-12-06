@@ -1,9 +1,9 @@
 <?php
 $host = "localhost";
-$port = "5432";
-$db   = "siakad";
+$port = "5433";
+$db   = "db_kampus";
 $user = "postgres";
-$pass = "rafizf2005";  
+$pass = "220306";  
 
 $pdo = null;
 

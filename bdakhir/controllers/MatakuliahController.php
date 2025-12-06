@@ -6,9 +6,9 @@ class MatakuliahController {
     private $model;
     private $jurusan;
 
-    public function __construct() {
-        $this->model = new MatakuliahModel();
-        $this->jurusan = new JurusanModel();
+    public function __construct($db) {
+        $this->model = new MatakuliahModel($db);
+        $this->jurusan = new JurusanModel($db); 
     }
 
     public function index() {
@@ -29,27 +29,28 @@ class MatakuliahController {
             'id_jurusan' => $_POST['id_jurusan']
         ];
 
-        $this->model->insert($data);
+        $this->model->create($data); 
         header("Location: index.php?action=matakuliah_index");
         exit;
     }
 
     public function edit() {
-        $mk = $this->model->find($_GET['id']);
+        $mk = $this->model->getById($_GET['id']);
         $jurusan = $this->jurusan->getAll();
         include "views/matakuliah_edit.php";
     }
 
     public function update() {
+        $id_matakuliah = $_POST['id'];
+        
         $data = [
-            'id'         => $_POST['id'],
             'kode'       => $_POST['kode'],
             'nama'       => $_POST['nama'],
             'sks'        => $_POST['sks'],
             'id_jurusan' => $_POST['id_jurusan']
         ];
 
-        $this->model->update($data);
+        $this->model->update($id_matakuliah, $data); 
         header("Location: index.php?action=matakuliah_index");
         exit;
     }

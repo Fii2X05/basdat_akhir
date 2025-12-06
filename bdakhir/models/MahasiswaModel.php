@@ -26,35 +26,48 @@ class MahasiswaModel {
     }
 
     public function create($data) {
+        // MENAMBAH: tahun_masuk dan foto_profil
         $stmt = $this->db->prepare("
-            INSERT INTO mahasiswa (nama_mahasiswa, nim, email, id_jurusan, id_kelas)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO mahasiswa (nama_mahasiswa, nim, email, no_hp, id_jurusan, id_kelas, tahun_masuk, foto_profil)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
         return $stmt->execute([
-            $data['nama_mahasiswa'],
-            $data['nim'],
+            $data['nama'],
+            $data['npm'],
             $data['email'],
+            $data['no_hp'],
             $data['id_jurusan'],
-            $data['id_kelas']
+            $data['id_kelas'],
+            $data['tahun_masuk'],
+            $data['foto_profil'] 
         ]);
     }
 
     public function update($id_mahasiswa, $data) {
-        $stmt = $this->db->prepare("
-            UPDATE mahasiswa
-            SET nama_mahasiswa = ?, nim = ?, email = ?, id_jurusan = ?, id_kelas = ?
-            WHERE id_mahasiswa = ?
-        ");
+        $sql = "UPDATE mahasiswa
+                SET nama_mahasiswa = ?, nim = ?, email = ?, no_hp = ?, id_jurusan = ?, id_kelas = ?, tahun_masuk = ?";
+        $params = [
+            $data['nama'], 
+            $data['npm'], 
+            $data['email'], 
+            $data['no_hp'], 
+            $data['id_jurusan'], 
+            $data['id_kelas'], 
+            $data['tahun_masuk']
+        ];
+        
+        // Cek jika ada foto baru
+        if (!empty($data['foto_profil'])) {
+            $sql .= ", foto_profil = ?";
+            $params[] = $data['foto_profil'];
+        }
+        
+        $sql .= " WHERE id_mahasiswa = ?";
+        $params[] = $id_mahasiswa;
 
-        return $stmt->execute([
-            $data['nama_mahasiswa'],
-            $data['nim'],
-            $data['email'],
-            $data['id_jurusan'],
-            $data['id_kelas'],
-            $id_mahasiswa
-        ]);
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
     }
 
     public function delete($id_mahasiswa) {

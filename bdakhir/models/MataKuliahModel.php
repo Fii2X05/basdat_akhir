@@ -18,26 +18,32 @@ class MatakuliahModel {
     }
 
     public function create($data) {
+
         $stmt = $this->db->prepare("
-            INSERT INTO matakuliah (nama_matakuliah, sks)
-            VALUES (?, ?)
+            INSERT INTO matakuliah (kode_matakuliah, nama_matakuliah, sks, id_jurusan)
+            VALUES (?, ?, ?, ?)
         ");
         return $stmt->execute([
-            $data['nama_matakuliah'],
-            $data['sks']
+            $data['kode'],
+            $data['nama'],
+            $data['sks'],
+            $data['id_jurusan']
         ]);
     }
 
     public function update($id_matakuliah, $data) {
+
         $stmt = $this->db->prepare("
             UPDATE matakuliah
-            SET nama_matakuliah = ?, sks = ?
+            SET kode_matakuliah = ?, nama_matakuliah = ?, sks = ?, id_jurusan = ?
             WHERE id_matakuliah = ?
         ");
 
         return $stmt->execute([
-            $data['nama_matakuliah'],
+            $data['kode'],
+            $data['nama'],
             $data['sks'],
+            $data['id_jurusan'],
             $id_matakuliah
         ]);
     }
@@ -47,3 +53,4 @@ class MatakuliahModel {
         return $stmt->execute([$id_matakuliah]);
     }
 }
+?>

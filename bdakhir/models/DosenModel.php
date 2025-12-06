@@ -2,10 +2,8 @@
 class DosenModel {
     private $db;
 
-    public function __construct() {
-        require_once "Database.php";
-        $database = new Database();
-        $this->db = $database->connect();
+    public function __construct($db) {
+        $this->db = $db;
     }
 
     public function getAll() {
@@ -19,54 +17,54 @@ class DosenModel {
     }
 
     public function find($id) {
-        $sql = "SELECT * FROM dosen WHERE id_dosen = :id";
+        $sql = "SELECT * FROM dosen WHERE id_dosen = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([":id" => $id]);
+        $stmt->execute([$id]); 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
+    
     public function insert($data) {
         $sql = "INSERT INTO dosen (nip, nama, email, no_hp, id_jurusan, status) 
-                VALUES (:nip, :nama, :email, :no_hp, :id_jurusan, :status)";
+                VALUES (?, ?, ?, ?, ?, ?)"; 
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
-            ":nip"         => $data['nip'],
-            ":nama"        => $data['nama'],
-            ":email"       => $data['email'],
-            ":no_hp"       => $data['no_hp'],
-            ":id_jurusan"  => $data['id_jurusan'],
-            ":status"      => $data['status']
+            $data['nip'],
+            $data['nama'],
+            $data['email'],
+            $data['no_hp'],
+            $data['id_jurusan'],
+            $data['status']
         ]);
     }
 
-    public function update($data) {
+    public function update($id, $data) { 
         $sql = "UPDATE dosen SET 
-                    nip = :nip,
-                    nama = :nama,
-                    email = :email,
-                    no_hp = :no_hp,
-                    id_jurusan = :id_jurusan,
-                    status = :status
-                WHERE id_dosen = :id";
+                    nip = ?,
+                    nama = ?,
+                    email = ?,
+                    no_hp = ?,
+                    id_jurusan = ?,
+                    status = ?
+                WHERE id_dosen = ?";
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
-            ":id"          => $data['id'],
-            ":nip"         => $data['nip'],
-            ":nama"        => $data['nama'],
-            ":email"       => $data['email'],
-            ":no_hp"       => $data['no_hp'],
-            ":id_jurusan"  => $data['id_jurusan'],
-            ":status"      => $data['status']
+            $data['nip'],
+            $data['nama'],
+            $data['email'],
+            $data['no_hp'],
+            $data['id_jurusan'],
+            $data['status'],
+            $id
         ]);
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM dosen WHERE id_dosen = :id";
+        $sql = "DELETE FROM dosen WHERE id_dosen = ?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([":id" => $id]);
+        return $stmt->execute([$id]);
     }
 }

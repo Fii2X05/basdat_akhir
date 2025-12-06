@@ -4,8 +4,8 @@ require_once "models/DosenModel.php";
 class DosenController {
     private $model;
 
-    public function __construct() {
-        $this->model = new DosenModel();
+    public function __construct($db) { 
+        $this->model = new DosenModel($db);
     }
 
     public function index() {
@@ -19,31 +19,42 @@ class DosenController {
 
     public function store() {
         $data = [
-            'nip'       => $_POST['nip'],
-            'nama'      => $_POST['nama'],
-            'keahlian'  => $_POST['keahlian']
+            'nip' 	 	  => $_POST['nip'],
+            'nama' 	 	  => $_POST['nama'],
+            'email' 	  => $_POST['email'] ?? null,
+            'no_hp' 	  => $_POST['no_hp'] ?? null,
+            'id_jurusan'  => $_POST['id_jurusan'] ?? null,
+            'status' 	  => $_POST['status'] ?? 'Aktif',
         ];
 
-        $this->model->create($data);
+        $this->model->insert($data); 
+
         header("Location: index.php?page=dosen_list");
         exit;
     }
 
     public function edit() {
         $id = $_GET['id'];
-        $dosen = $this->model->getById($id);
+        
+        $dosen = $this->model->find($id);
+
         include "views/dosen_edit.php";
     }
 
     public function update() {
+        $id_dosen = $_POST['id_dosen'];
+
         $data = [
-            'id_dosen' => $_POST['id_dosen'],
-            'nip'      => $_POST['nip'],
-            'nama'     => $_POST['nama'],
-            'keahlian' => $_POST['keahlian']
+            'nip' 	 	  => $_POST['nip'],
+            'nama' 	 	  => $_POST['nama'],
+            'email' 	  => $_POST['email'] ?? null,
+            'no_hp' 	  => $_POST['no_hp'] ?? null,
+            'id_jurusan'  => $_POST['id_jurusan'] ?? null,
+            'status' 	  => $_POST['status'] ?? 'Aktif',
         ];
 
-        $this->model->update($data['id_dosen'], $data);
+        $this->model->update($id_dosen, $data); 
+
         header("Location: index.php?page=dosen_list");
         exit;
     }
@@ -54,4 +65,3 @@ class DosenController {
         exit;
     }
 }
-?>
