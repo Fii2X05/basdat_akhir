@@ -268,7 +268,7 @@ if ($act === 'create' || $act === 'edit') {
         <div class="row">
             <div class="col-md-4 text-center mb-3">
                 <?php if (!empty($mhs['foto']) && file_exists("uploads/" . $mhs['foto'])): ?>
-                    <img src="uploads/<?= $mhs['foto'] ?>" alt="Foto Mahasiswa" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+                    <img src=".../uploads/<?= $mhs['foto'] ?>" alt="Foto Mahasiswa" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
                 <?php else: ?>
                     <img src="https://via.placeholder.com/200x250?text=No+Photo" alt="No Foto" class="img-fluid rounded shadow-sm">
                 <?php endif; ?>

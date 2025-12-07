@@ -585,6 +585,13 @@ if ($page === 'nilai') {
                     <a class="nav-link <?= ($page === 'nilai') ? 'active' : '' ?>" href="?page=nilai">
                         <i class="bi bi-bar-chart"></i> Nilai
                     </a>
+                    <hr style="border-color: rgba(255,255,255,0.3); margin: 10px 15px;">
+                    <a class="nav-link <?= ($page === 'transkrip') ? 'active' : '' ?>" href="?page=transkrip">
+                        <i class="bi bi-file-earmark-text"></i> Transkrip Nilai
+                    </a>
+                    <a class="nav-link <?= ($page === 'laporan') ? 'active' : '' ?>" href="?page=laporan">
+                        <i class="bi bi-graph-up"></i> Laporan Akademik
+                    </a>
                 </nav>
             </div>
             
