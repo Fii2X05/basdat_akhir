@@ -1,26 +1,21 @@
 <?php
 $host = "localhost";
-$port = "5433";
-$db   = "db_kampus";
+$port = "5432";
+$db   = "siakad";
 $user = "postgres";
-$pass = "220306";  
+$pass = "rafizf2005";  
 
 $pdo = null;
 
 try {
-    // Create DSN (Data Source Name)
     $dsn = "pgsql:host={$host};port={$port};dbname={$db}";
     
-    // Create PDO instance
     $pdo = new PDO($dsn, $user, $pass);
     
-    // Set error mode ke exception
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Set default fetch mode ke associative array
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     
-    // Optional: Set charset ke UTF8
     $pdo->exec("SET NAMES 'UTF8'");
     
 } catch (PDOException $e) {
