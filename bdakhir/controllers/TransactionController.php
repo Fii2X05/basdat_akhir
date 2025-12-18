@@ -1,5 +1,4 @@
 <?php
-// controllers/TransactionController.php
 
 class TransactionController {
     private $pdo;
@@ -14,8 +13,6 @@ class TransactionController {
             // 1. Mulai Transaksi
             $this->pdo->beginTransaction();
 
-            // [PERBAIKAN] Hapus dulu data lama (jika ada) agar tidak Error Duplicate Key
-            // Kita gunakan Mahasiswa 1001 dan Matkul 501 sebagai bahan percobaan
             $this->pdo->exec("DELETE FROM nilai WHERE id_mahasiswa = 1001 AND id_matkul = 501");
 
             // Query A: Input Nilai (Valid)
@@ -33,14 +30,12 @@ class TransactionController {
 
             $_SESSION['flash'] = ['type' => 'success', 'message' => 'Transaksi BERHASIL! Data Nilai (95/A) & Log tersimpan.'];
         } catch (Exception $e) {
-            // Jika ada error (misal koneksi putus), batalkan semua
             if ($this->pdo->inTransaction()) {
                 $this->pdo->rollBack();
             }
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal: ' . $e->getMessage()];
         }
         
-        // Redirect yang benar
         header('Location: index.php?page=transaction_test');
         exit;
     }
@@ -59,7 +54,6 @@ class TransactionController {
                      VALUES ('Percobaan Gagal', 'Error')"; 
             $this->pdo->exec($sql2);
 
-            // 2. Commit (Tidak akan pernah tercapai)
             $this->pdo->commit();
 
         } catch (Exception $e) {

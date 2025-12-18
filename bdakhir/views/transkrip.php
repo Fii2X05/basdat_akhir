@@ -11,7 +11,6 @@ $listMahasiswa = $stmtAllMhs->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <style>
-    /* Sembunyikan elemen non-penting saat print */
     @media print {
         .no-print, .sidebar, .navbar { display: none !important; }
         .card-custom { box-shadow: none; border: none; }

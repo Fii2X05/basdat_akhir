@@ -1,5 +1,4 @@
 <?php
-// views/jurusan.php
 global $pdo;
 if (empty($pdo)) { require_once __DIR__ . '/../config/database.php'; }
 

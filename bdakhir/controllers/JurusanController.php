@@ -1,5 +1,4 @@
 <?php
-// controllers/JurusanController.php
 
 class JurusanController {
     private $pdo;
@@ -8,7 +7,7 @@ class JurusanController {
         $this->pdo = $pdo;
     }
 
-    // --- LOGIC TAMBAH DATA ---
+    //LOGIC TAMBAH DATA
     public function store() {
         $nama = trim($_POST['nama_jurusan']);
 
@@ -42,7 +41,7 @@ class JurusanController {
         exit;
     }
 
-    // --- LOGIC UPDATE DATA ---
+    //LOGIC UPDATE DATA
     public function update() {
         $id = $_POST['id_jurusan'];
         $nama = trim($_POST['nama_jurusan']);
@@ -67,7 +66,7 @@ class JurusanController {
         exit;
     }
 
-    // --- LOGIC DELETE (STORED PROCEDURE) ---
+    //LOGIC DELETE (STORED PROCEDURE)
     public function delete($id) {
         try {
             // Memanggil Procedure

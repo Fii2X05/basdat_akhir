@@ -8,7 +8,7 @@ class NilaiController {
         $this->pdo = $pdo;
     }
 
-    // --- HELPER: Konversi Angka ke Huruf ---
+    // Konversi Angka ke Huruf 
     private function hitungNilaiHuruf($angka) {
         if ($angka >= 85) return 'A';
         if ($angka >= 75) return 'B';
@@ -17,7 +17,7 @@ class NilaiController {
         return 'E';
     }
 
-    // --- HELPER: Cek Duplikat Matkul per Mahasiswa ---
+    //Cek Duplikat Matkul per Mahasiswa
     private function isDuplicate($id_mhs, $id_matkul, $exclude_id = null) {
         $sql = "SELECT COUNT(*) FROM nilai WHERE id_mahasiswa = :mhs AND id_matkul = :mk";
         $params = ['mhs' => $id_mhs, 'mk' => $id_matkul];
@@ -32,27 +32,24 @@ class NilaiController {
         return $stmt->fetchColumn() > 0;
     }
 
-    // --- LOGIC TAMBAH DATA (STORE) ---
+    //LOGIC TAMBAH DATA (STORE)
     public function store() {
         $mahasiswa = $_POST['id_mahasiswa'];
         $matkul = $_POST['id_matkul'];
         $angka = $_POST['nilai_angka'];
 
-        // 1. Validasi Range Angka
         if ($angka < 0 || $angka > 100) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal: Nilai harus antara 0 sampai 100!'];
             header('Location: index.php?page=nilai&act=create');
             exit;
         }
 
-        // 2. Validasi Duplikat (Satu Mahasiswa tdk boleh punya 2 nilai di matkul yg sama)
         if ($this->isDuplicate($mahasiswa, $matkul)) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal: Mahasiswa ini sudah memiliki nilai untuk mata kuliah tersebut!'];
             header('Location: index.php?page=nilai&act=create');
             exit;
         }
 
-        // 3. Hitung Huruf Otomatis
         $huruf = $this->hitungNilaiHuruf($angka);
 
         try {
@@ -75,7 +72,7 @@ class NilaiController {
         exit;
     }
 
-    // --- LOGIC UPDATE DATA ---
+    //LOGIC UPDATE DATA
     public function update() {
         $id = $_POST['id_nilai'];
         $mahasiswa = $_POST['id_mahasiswa'];
@@ -118,10 +115,9 @@ class NilaiController {
         exit;
     }
 
-    // --- LOGIC DELETE (STORED PROCEDURE) ---
+    //LOGIC DELETE (STORED PROCEDURE)
     public function delete($id) {
         try {
-            // Memanggil Stored Procedure
             $sql = "CALL hapus_nilai_lengkap(:id)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute(['id' => $id]);

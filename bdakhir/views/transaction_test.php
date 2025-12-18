@@ -1,5 +1,4 @@
 <?php
-// views/transaction_test.php
 global $pdo;
 ?>
 

@@ -1,5 +1,4 @@
 <?php
-// controllers/KelasController.php
 
 class KelasController {
     private $pdo;
@@ -8,7 +7,7 @@ class KelasController {
         $this->pdo = $pdo;
     }
 
-    // --- LOGIC TAMBAH DATA (STORE) ---
+    //LOGIC TAMBAH DATA (STORE)
     public function store() {
         $nama = $_POST['nama_kelas'];
         $jurusan = $_POST['id_jurusan'];
@@ -51,7 +50,7 @@ class KelasController {
         exit;
     }
 
-    // --- LOGIC UPDATE DATA ---
+    //LOGIC UPDATE DATA
     public function update() {
         $id = $_POST['id_kelas'];
         $nama = $_POST['nama_kelas'];
@@ -86,12 +85,9 @@ class KelasController {
         exit;
     }
 
-    // --- LOGIC DELETE (STORED PROCEDURE) ---
+    //LOGIC DELETE (STORED PROCEDURE)
     public function delete($id) {
         try {
-            // Memanggil Procedure
-            // Mahasiswa di kelas ini akan dikeluarkan (id_kelas = NULL)
-            // Jadwal kelas ini akan dihapus
             $sql = "CALL hapus_kelas_lengkap(:id)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute(['id' => $id]);

@@ -1,5 +1,4 @@
 <?php
-// controllers/MahasiswaController.php
 
 class MahasiswaController {
     private $pdo;
@@ -8,17 +7,16 @@ class MahasiswaController {
         $this->pdo = $pdo;
     }
 
-    // --- HELPER: Cek jika POST Max Size terlampaui (File Sangat Besar) ---
+    //Cek jika POST Max Size terlampaui
     private function checkPostMaxSize() {
         if (empty($_POST) && $_SERVER['CONTENT_LENGTH'] > 0) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal: File yang diupload melebih batas maksimal server (POST_MAX_SIZE)!'];
-            // Redirect kembali ke halaman list karena kita tidak tahu ID-nya (POST data hilang)
             header('Location: index.php?page=mahasiswa'); 
             exit;
         }
     }
 
-    // --- LOGIC TAMBAH DATA (STORE) ---
+    //LOGIC TAMBAH DATA (STORE)
     public function store() {
         $this->checkPostMaxSize();
 
@@ -32,13 +30,10 @@ class MahasiswaController {
         
         $fotoName = null;
         
-        // Cek Status Upload
         $fileError = $_FILES['foto']['error'];
 
-        // Jika user mencoba upload file (Error bukan 4/Kosong)
         if ($fileError !== UPLOAD_ERR_NO_FILE) {
             
-            // 1. Cek Error System (File Corrupt / Server Limit)
             if ($fileError !== UPLOAD_ERR_OK) {
                 $msg = 'Gagal Upload: Terjadi kesalahan sistem (Kode: ' . $fileError . ')';
                 if ($fileError === UPLOAD_ERR_INI_SIZE || $fileError === UPLOAD_ERR_FORM_SIZE) {
@@ -46,7 +41,7 @@ class MahasiswaController {
                 }
                 $_SESSION['flash'] = ['type' => 'danger', 'message' => $msg];
                 header('Location: index.php?page=mahasiswa&act=create');
-                exit; // STOP PROSES INSERT
+                exit; 
             }
 
             // 2. Validasi Ukuran Manual (2MB)
@@ -56,7 +51,6 @@ class MahasiswaController {
                 exit; 
             }
 
-            // 3. Validasi Ekstensi
             $fileName = $_FILES['foto']['name'];
             $tmpName  = $_FILES['foto']['tmp_name'];
             $validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -65,7 +59,7 @@ class MahasiswaController {
             if (!in_array($fileExtension, $validExtensions)) {
                 $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal: Format foto harus JPG, JPEG, PNG, atau GIF!'];
                 header('Location: index.php?page=mahasiswa&act=create');
-                exit; // STOP PROSES INSERT
+                exit; 
             }
 
             // Lolos Validasi -> Upload
@@ -101,7 +95,7 @@ class MahasiswaController {
         exit;
     }
 
-    // --- LOGIC UPDATE DATA ---
+    //LOGIC UPDATE DATA
     public function update() {
         $this->checkPostMaxSize();
 
@@ -119,7 +113,6 @@ class MahasiswaController {
         // --- SKENARIO 1: USER MENCOBA UPLOAD FOTO (Validasi Ketat) ---
         if ($fileError !== UPLOAD_ERR_NO_FILE) {
             
-            // 1. Cek Error System
             if ($fileError !== UPLOAD_ERR_OK) {
                 $msg = 'Gagal Update: Terjadi kesalahan upload (Kode: ' . $fileError . ')';
                 if ($fileError === UPLOAD_ERR_INI_SIZE || $fileError === UPLOAD_ERR_FORM_SIZE) {
@@ -127,14 +120,14 @@ class MahasiswaController {
                 }
                 $_SESSION['flash'] = ['type' => 'danger', 'message' => $msg];
                 header("Location: index.php?page=mahasiswa&act=edit&id=$id");
-                exit; // [PENTING] STOP UPDATE DATABASE
+                exit;
             }
 
             // 2. Validasi Ukuran (2MB)
             if ($_FILES['foto']['size'] > 2 * 1024 * 1024) {
                 $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal Update: Ukuran foto maksimal 2MB! Data TIDAK disimpan.'];
                 header("Location: index.php?page=mahasiswa&act=edit&id=$id");
-                exit; // [PENTING] STOP UPDATE DATABASE
+                exit;
             }
 
             // 3. Validasi Ekstensi
@@ -168,7 +161,7 @@ class MahasiswaController {
             ];
 
         } 
-        // --- SKENARIO 2: TIDAK ADA UPLOAD FOTO (Update Data Saja) ---
+        //KENARIO 2: TIDAK ADA UPLOAD FOTO (Update Data Saja)
         else {
             $sql = "UPDATE mahasiswa SET nim=:nim, nama_mahasiswa=:nama, jenis_kelamin=:jk, 
                     id_jurusan=:jur, id_kelas=:kls, angkatan=:angkatan, alamat=:alamat 
@@ -180,7 +173,6 @@ class MahasiswaController {
             ];
         }
 
-        // Eksekusi Database
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
@@ -194,7 +186,7 @@ class MahasiswaController {
     }
     
 
-    // --- LOGIC DELETE (STORED PROCEDURE) ---
+    //LOGIC DELETE (STORED PROCEDURE)
     public function delete($id) {
         try {
             $sql = "CALL hapus_mahasiswa_lengkap(:id)";

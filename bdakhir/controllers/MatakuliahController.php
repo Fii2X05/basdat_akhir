@@ -1,5 +1,4 @@
 <?php
-// controllers/MatakuliahController.php
 
 class MatakuliahController {
     private $pdo;
@@ -8,7 +7,7 @@ class MatakuliahController {
         $this->pdo = $pdo;
     }
 
-    // --- LOGIC TAMBAH DATA (STORE) ---
+    //LOGIC TAMBAH DATA (STORE)
     public function store() {
         $kode = $_POST['kode_matkul'];
         $nama = $_POST['nama_matkul'];
@@ -19,7 +18,6 @@ class MatakuliahController {
         // Handle Prasyarat (Bisa Null/Kosong)
         $prasyarat = !empty($_POST['prasyarat_id']) ? $_POST['prasyarat_id'] : null;
 
-        // Validasi
         if (empty($kode) || empty($nama)) {
             $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Gagal: Kode dan Nama Matkul wajib diisi!'];
             header('Location: index.php?page=matakuliah&act=create');
@@ -57,7 +55,7 @@ class MatakuliahController {
         exit;
     }
 
-    // --- LOGIC UPDATE DATA ---
+    //LOGIC UPDATE DATA
     public function update() {
         $id = $_POST['id_matkul'];
         $kode = $_POST['kode_matkul'];
@@ -102,13 +100,9 @@ class MatakuliahController {
         exit;
     }
 
-    // --- LOGIC DELETE (STORED PROCEDURE) ---
+    //LOGIC DELETE (STORED PROCEDURE)
     public function delete($id) {
         try {
-            // Memanggil Stored Procedure
-            // 1. Matkul lain yang menjadikan ini prasyarat -> prasyarat_id jadi NULL
-            // 2. Hapus Nilai & Jadwal terkait
-            // 3. Hapus Matkul ini
             $sql = "CALL hapus_matkul_lengkap(:id)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute(['id' => $id]);

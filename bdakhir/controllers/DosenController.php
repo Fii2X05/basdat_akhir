@@ -1,5 +1,4 @@
 <?php
-// controllers/DosenController.php
 
 class DosenController {
     private $pdo;
@@ -8,7 +7,7 @@ class DosenController {
         $this->pdo = $pdo;
     }
 
-    // --- LOGIC TAMBAH DATA (STORE) ---
+    // LOGIC TAMBAH DATA (STORE) 
     public function store() {
         // Ambil input sesuai name di form
         $nidn = $_POST['nidn']; 
@@ -58,7 +57,7 @@ class DosenController {
         exit;
     }
 
-    // --- LOGIC UPDATE DATA ---
+    //LOGIC UPDATE DATA
     public function update() {
         $id = $_POST['id_dosen'];
         $nidn = $_POST['nidn'];
@@ -99,7 +98,7 @@ class DosenController {
         exit;
     }
 
-    // --- LOGIC DELETE (PAKAI STORED PROCEDURE) ---
+    //LOGIC DELETE (PAKAI STORED PROCEDURE)
     public function delete($id) {
         try {
             $sql = "CALL hapus_dosen_lengkap(:id)";

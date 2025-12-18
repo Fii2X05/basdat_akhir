@@ -1,5 +1,4 @@
 <?php
-// controllers/JadwalController.php
 
 class JadwalController {
     private $pdo;
@@ -8,7 +7,7 @@ class JadwalController {
         $this->pdo = $pdo;
     }
 
-    // --- HELPER: Cek Bentrok Jadwal ---
+    //Cek Bentrok Jadwal
     private function isScheduleConflict($hari, $jam_mulai, $jam_selesai, $id_kelas, $id_dosen, $exclude_id = null) {
         // Logika: 
         // 1. Hari harus sama
@@ -40,7 +39,7 @@ class JadwalController {
         return $stmt->fetchColumn() > 0;
     }
 
-    // --- LOGIC TAMBAH DATA (STORE) ---
+    //LOGIC TAMBAH DATA (STORE)
     public function store() {
         $matkul = $_POST['id_matkul'];
         $kelas = $_POST['id_kelas'];
@@ -85,7 +84,7 @@ class JadwalController {
         exit;
     }
 
-    // --- LOGIC UPDATE DATA ---
+    //LOGIC UPDATE DATA
     public function update() {
         $id = $_POST['id_jadwal'];
         $matkul = $_POST['id_matkul'];
@@ -132,10 +131,9 @@ class JadwalController {
         exit;
     }
 
-    // --- LOGIC DELETE (STORED PROCEDURE) ---
+    //LOGIC DELETE (STORED PROCEDURE)
     public function delete($id) {
         try {
-            // Memanggil Stored Procedure
             $sql = "CALL hapus_jadwal_lengkap(:id)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute(['id' => $id]);
